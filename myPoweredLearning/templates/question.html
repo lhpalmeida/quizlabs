@@ -1,0 +1,9 @@
+<h2>Question {{ q_id + 1 }}</h2>
+<p>{{ question.question }}</p>
+<form method="post">
+  {% for option in question.options %}
+    <input type="radio" name="option" value="{{ option }}" required> {{ option }}<br>
+  {% endfor %}
+  <input type="hidden" name="score" value="{{ score }}">
+  <button type="submit">Submit</button>
+</form>
