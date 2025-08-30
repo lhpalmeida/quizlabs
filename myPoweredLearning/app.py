@@ -64,9 +64,11 @@ questions = [{"question": "What is the key mathematical difference between discr
                  "options": ["Discriminative AI", "Generative AI", "Symbolic AI", "Creative AI"],
                  "answer": "Generative AI"}]
 
+
 @app.route("/")
 def index():
     return render_template("index.html")
+
 
 @app.route("/quiz/<int:q_id>", methods=["GET", "POST"])
 def quiz(q_id):
@@ -81,15 +83,17 @@ def quiz(q_id):
         if selected == correct:
             score += 1
             print(score)
-        return redirect(url_for("quiz", q_id=q_id+1, score=score))
+        return redirect(url_for("quiz", q_id=q_id + 1, score=score))
 
     score = request.args.get("score", 0)
     return render_template("question.html", question=questions[q_id], q_id=q_id, score=score)
+
 
 @app.route("/result")
 def result():
     score = request.args.get("score", 0)
     return render_template("result.html", score=score, total=len(questions))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
