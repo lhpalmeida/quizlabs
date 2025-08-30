@@ -2,46 +2,67 @@ from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
-questions = [
-    # {"question": "What is the capital of France?", "options": ["Paris", "London", "Berlin", "Rome"], "answer": "Paris"},
-    # {"question": "What is 2 + 2?", "options": ["3", "4", "5", "6"], "answer": "4"},
-    # {"question": "Which planet is known as the Red Planet?", "options": ["Earth", "Mars", "Jupiter", "Venus"], "answer": "Mars"}
-    {
-        "question": "What does discriminative AI primarily focus on?",
-        "options": ["Generating new data", "Classifying existing data", "Creating images", "Writing text"],
-        "answer": "Classifying existing data"
-    },
-    {
-        "question": "Which type of AI is used to generate realistic images or text?",
-        "options": ["Discriminative AI", "Generative AI", "Supervised AI", "Reinforcement AI"],
-        "answer": "Generative AI"
-    },
-    {
-        "question": "Which AI model learns the boundary between classes?",
-        "options": ["Generative AI", "Discriminative AI", "Unsupervised AI", "Symbolic AI"],
-        "answer": "Discriminative AI"
-    },
-    {
-        "question": "Which AI type models the joint probability distribution of data and labels?",
-        "options": ["Discriminative AI", "Generative AI", "Predictive AI", "Reactive AI"],
-        "answer": "Generative AI"
-    },
-    {
-        "question": "Which of the following is an example of a generative AI model?",
-        "options": ["Logistic Regression", "Support Vector Machine", "GPT", "Decision Tree"],
-        "answer": "GPT"
-    },
-    {
-        "question": "Which AI type is better suited for classification tasks?",
-        "options": ["Generative AI", "Discriminative AI", "Creative AI", "Cognitive AI"],
-        "answer": "Discriminative AI"
-    },
-    {
-        "question": "Which AI type can be used to create synthetic data?",
-        "options": ["Discriminative AI", "Generative AI", "Analytical AI", "Statistical AI"],
-        "answer": "Generative AI"
-    }
-]
+questions = [{"question": "What is the key mathematical difference between discriminative and generative models?",
+              "options": ["Discriminative models estimate P(x, y)", "Generative models estimate P(y|x)",
+                          "Discriminative models estimate P(y|x)", "Generative models estimate P(x|y)"],
+              "answer": "Discriminative models estimate P(y|x)"},
+             {"question": "Which model type is more suitable for semi-supervised learning tasks?",
+              "options": ["Discriminative AI", "Generative AI", "Symbolic AI", "Reactive AI"],
+              "answer": "Generative AI"},
+             {"question": "Which AI model type is more likely to suffer from overfitting in high-dimensional data?",
+              "options": ["Generative AI", "Discriminative AI", "Unsupervised AI", "Reinforcement AI"],
+              "answer": "Generative AI"}, {
+                 "question": "Which of the following models is considered both generative and discriminative depending on its configuration?",
+                 "options": ["Naive Bayes", "Conditional Random Fields", "Variational Autoencoders",
+                             "Hidden Markov Models"], "answer": "Hidden Markov Models"},
+             {"question": "Which AI model type is more robust to missing data?",
+              "options": ["Discriminative AI", "Generative AI", "Predictive AI", "Reactive AI"],
+              "answer": "Generative AI"},
+             {"question": "Which model type is more likely to be used in zero-shot learning scenarios?",
+              "options": ["Discriminative AI", "Generative AI", "Symbolic AI", "Cognitive AI"],
+              "answer": "Generative AI"},
+             {"question": "Which model type typically requires more computational resources during training?",
+              "options": ["Discriminative AI", "Generative AI", "Unsupervised AI", "Reactive AI"],
+              "answer": "Generative AI"},
+             {"question": "Which model type is more likely to be used in transfer learning applications?",
+              "options": ["Discriminative AI", "Generative AI", "Symbolic AI", "Creative AI"],
+              "answer": "Generative AI"},
+             {"question": "Which model type is more suitable for modeling complex dependencies between features?",
+              "options": ["Discriminative AI", "Generative AI", "Predictive AI", "Reactive AI"],
+              "answer": "Generative AI"},
+             {"question": "Which model type is more likely to be used in adversarial training setups?",
+              "options": ["Discriminative AI", "Generative AI", "Symbolic AI", "Cognitive AI"],
+              "answer": "Generative AI"},
+             {"question": "Which model type is more likely to be used in probabilistic graphical models?",
+              "options": ["Discriminative AI", "Generative AI", "Unsupervised AI", "Reactive AI"],
+              "answer": "Generative AI"},
+             {"question": "Which model type is more likely to be used in structured prediction tasks?",
+              "options": ["Discriminative AI", "Generative AI", "Symbolic AI", "Creative AI"],
+              "answer": "Discriminative AI"},
+             {"question": "Which model type is more likely to be used in Bayesian inference?",
+              "options": ["Discriminative AI", "Generative AI", "Predictive AI", "Reactive AI"],
+              "answer": "Generative AI"},
+             {"question": "Which model type is more likely to be used in active learning scenarios?",
+              "options": ["Discriminative AI", "Generative AI", "Symbolic AI", "Cognitive AI"],
+              "answer": "Discriminative AI"},
+             {"question": "Which model type is more likely to be used in unsupervised pretraining?",
+              "options": ["Discriminative AI", "Generative AI", "Unsupervised AI", "Reactive AI"],
+              "answer": "Generative AI"},
+             {"question": "Which model type is more likely to be used in multi-modal learning?",
+              "options": ["Discriminative AI", "Generative AI", "Symbolic AI", "Creative AI"],
+              "answer": "Generative AI"},
+             {"question": "Which model type is more likely to be used in few-shot learning?",
+              "options": ["Discriminative AI", "Generative AI", "Predictive AI", "Reactive AI"],
+              "answer": "Generative AI"},
+             {"question": "Which model type is more likely to be used in feature extraction tasks?",
+              "options": ["Discriminative AI", "Generative AI", "Symbolic AI", "Cognitive AI"],
+              "answer": "Discriminative AI"},
+             {"question": "Which model type is more likely to be used in reinforcement learning policy generation?",
+              "options": ["Discriminative AI", "Generative AI", "Unsupervised AI", "Reactive AI"],
+              "answer": "Generative AI"}, {
+                 "question": "Which model type is more likely to be used in synthetic data generation for privacy preservation?",
+                 "options": ["Discriminative AI", "Generative AI", "Symbolic AI", "Creative AI"],
+                 "answer": "Generative AI"}]
 
 @app.route("/")
 def index():
