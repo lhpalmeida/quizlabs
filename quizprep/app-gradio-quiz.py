@@ -1,107 +1,26 @@
 import gradio as gr
+import json
+import random
 
-questions = [
-  {
-    "question": "What is the primary focus of CHM1311 in the Health Sciences program?",
-    "options": [
-      "Advanced organic synthesis",
-      "Fundamental principles of general chemistry",
-      "Biochemistry of proteins and enzymes",
-      "Clinical laboratory techniques"
-    ],
-    "answer": "Fundamental principles of general chemistry"
-  },
-  {
-    "question": "Which of the following best describes the scientific method introduced in CHM1311?",
-    "options": [
-      "A strict set of lab rules",
-      "A process of observation, hypothesis, experimentation, and conclusion",
-      "A memorization technique for chemical formulas",
-      "A mathematical formula used to predict reactions"
-    ],
-    "answer": "A process of observation, hypothesis, experimentation, and conclusion"
-  },
-  {
-    "question": "Which system of measurement is primarily used in CHM1311?",
-    "options": [
-      "Imperial system",
-      "Customary US units",
-      "SI (International System of Units)",
-      "British engineering system"
-    ],
-    "answer": "SI (International System of Units)"
-  },
-  {
-    "question": "What is the correct definition of a significant figure in a measurement?",
-    "options": [
-      "Digits that are uncertain",
-      "Digits that are always zero",
-      "Digits that reflect the precision of a measurement",
-      "Digits used only in chemical equations"
-    ],
-    "answer": "Digits that reflect the precision of a measurement"
-  },
-  {
-    "question": "What does the term 'element' refer to in chemistry?",
-    "options": [
-      "A substance that cannot be broken down into simpler substances by chemical means",
-      "A mixture of two or more compounds",
-      "A physical combination of substances",
-      "A unit of energy in chemical reactions"
-    ],
-    "answer": "A substance that cannot be broken down into simpler substances by chemical means"
-  },
-  {
-    "question": "Which subatomic particle determines the identity of an element?",
-    "options": [
-      "Neutrons",
-      "Electrons",
-      "Protons",
-      "Isotopes"
-    ],
-    "answer": "Protons"
-  },
-  {
-    "question": "Which of the following best describes a compound?",
-    "options": [
-      "A pure substance composed of two or more elements chemically bonded",
-      "A heterogeneous mixture",
-      "A single type of atom",
-      "A physical state of matter"
-    ],
-    "answer": "A pure substance composed of two or more elements chemically bonded"
-  },
-  {
-    "question": "In the periodic table, elements are arranged primarily according to:",
-    "options": [
-      "Atomic mass",
-      "Alphabetical order",
-      "Atomic number",
-      "Number of neutrons"
-    ],
-    "answer": "Atomic number"
-  },
-  {
-    "question": "Which law states that mass is neither created nor destroyed in a chemical reaction?",
-    "options": [
-      "Law of Multiple Proportions",
-      "Law of Definite Composition",
-      "Law of Conservation of Mass",
-      "Law of Ideal Gases"
-    ],
-    "answer": "Law of Conservation of Mass"
-  },
-  {
-    "question": "Why is chemistry considered a central science in health studies?",
-    "options": [
-      "It focuses only on mathematical calculations",
-      "It bridges physics, biology, and medicine by explaining matter and its interactions",
-      "It is unrelated to biology or health",
-      "It is only needed for lab work"
-    ],
-    "answer": "It bridges physics, biology, and medicine by explaining matter and its interactions"
-  }
-]
+
+# Function to load and shuffle questions and options
+def load_questions():
+    with open("i_shouldnt_feel_t_w_chap1.json", "r") as file:
+        questions = json.load(file)
+
+    # Shuffle the questions
+    random.shuffle(questions)
+
+    # Shuffle the options for each question
+    for question in questions:
+        random.shuffle(question["options"])
+
+    return questions
+
+
+# Load questions from the file and shuffle them
+questions = load_questions()
+
 
 def build_view(q_id: int, score: int):
     total = len(questions)
@@ -114,13 +33,13 @@ def build_view(q_id: int, score: int):
             gr.update(value="Thanks for playing!", visible=True),  # question text
             gr.update(choices=[], value=None, visible=False),  # options
             gr.update(visible=False),  # submit button
-            gr.update(visible=True),   # restart button
+            gr.update(visible=True),  # restart button
             q_id,
             score
         )
 
     q = questions[q_id]
-    title = "RAG Quiz"
+    title = "Non-Tech Quiz"
     progress = f"Question {q_id + 1} of {total} | Current Score: {score}"
     question_text = q["question"]
     options = q["options"]
@@ -135,23 +54,29 @@ def build_view(q_id: int, score: int):
         score
     )
 
+
 def submit_answer(selected, q_id, score):
     # If nothing selected, don't advance; just re-render the same question
     if selected is None:
         return build_view(q_id, score)
 
-    # Update score if correct
-    if q_id < len(questions) and selected == questions[q_id]["answer"]:
+    # Check if the selected option is correct
+    if selected == questions[q_id]["answer"]:
         score += 1
 
     # Move to next question
     q_id += 1
     return build_view(q_id, score)
 
+
 def restart_quiz():
+    # Reload and shuffle questions and options each time the quiz is restarted
+    global questions
+    questions = load_questions()
     return build_view(0, 0)
 
-with gr.Blocks(title="RAG Quiz", css=".choices label { display: block; }") as demo:
+
+with gr.Blocks(title="Non-Tech Quiz", css=".choices label { display: block; }") as demo:
     q_id = gr.State(0)
     score = gr.State(0)
 
